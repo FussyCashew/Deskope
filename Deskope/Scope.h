@@ -27,7 +27,7 @@
 #define TRACKING 9
 #define SCREENCAPTURERATE 10
 
-#include <OVR.h>	//Oculus SDK
+#include <B:\OculusSDK\LibOVR\Include\OVR.h>	//Oculus SDK
 
 using namespace OVR;
 

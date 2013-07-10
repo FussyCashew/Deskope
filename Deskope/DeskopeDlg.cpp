@@ -374,12 +374,15 @@ void CDeskopeDlg::SendCaptureRate()
 
 void CDeskopeDlg::OnBnClickedDisableComposition()
 {
+#ifdef _WIN32_WINNT_WIN8 //Don't do anything, DWM Composition is force enabled.	
+#elif //Check OS version and set DWM Composition as needed
 	if (!(OSVersion.dwMajorVersion < 6 || OSVersion.dwMinorVersion > 1)) { // if Vista or 7
 		if (DisableComposition.GetCheck())
 			DwmEnableComposition(DWM_EC_DISABLECOMPOSITION);
 		else
 			DwmEnableComposition(DWM_EC_ENABLECOMPOSITION);
 	}
+#endif
 }
 
 
