@@ -145,11 +145,12 @@ BOOL CDeskopeDlg::OnInitDialog()
 	// Setup hotkeys
 	HWND appHwnd = GetSafeHwnd();
 	int mod_norepeat = OSVersion.dwMajorVersion < 6 ? 0 : MOD_NOREPEAT; /* if XP or older */
-	RegisterHotKey(appHwnd, HK_SBS3D, mod_norepeat | MOD_CONTROL | MOD_SHIFT, 0x5A); // Ctrl + Shift + Z
-	RegisterHotKey(appHwnd, HK_CENTER_SCREEN, mod_norepeat | MOD_CONTROL | MOD_SHIFT, 0X43); // Ctrl + Shift + C
-	RegisterHotKey(appHwnd, HK_RESTRICT_CURSOR, mod_norepeat | MOD_CONTROL | MOD_SHIFT, 0X58); // Ctrl + Shift + X
-	RegisterHotKey(appHwnd, HK_ZOOM_OUT, mod_norepeat | MOD_CONTROL | MOD_SHIFT, VK_DOWN); // Ctrl + Shift + Down
-	RegisterHotKey(appHwnd, HK_ZOOM_IN, mod_norepeat | MOD_CONTROL | MOD_SHIFT, VK_UP); // Ctrl + Shift + Up
+	RegisterHotKey(appHwnd, HK_SBS3D, mod_norepeat | MOD_CONTROL | MOD_ALT, 0x5A); // Ctrl + Alt + Z
+	RegisterHotKey(appHwnd, HK_CENTER_SCREEN, mod_norepeat | MOD_CONTROL | MOD_ALT, 0X43); // Ctrl + Alt + C
+	RegisterHotKey(appHwnd, HK_RESTRICT_CURSOR, mod_norepeat | MOD_CONTROL | MOD_ALT, 0X58); // Ctrl + Alt + X
+	RegisterHotKey(appHwnd, HK_ZOOM_OUT, mod_norepeat | MOD_CONTROL | MOD_ALT, VK_DOWN); // Ctrl + Alt + Down
+	RegisterHotKey(appHwnd, HK_ZOOM_IN, mod_norepeat | MOD_CONTROL | MOD_ALT, VK_UP); // Ctrl + Alt + Up
+	RegisterHotKey(appHwnd, HK_QUICK_ZOOM, mod_norepeat | MOD_CONTROL | MOD_ALT, 0x51); // Ctrl + Alt + Q
 
 	// Initialize controls with settings from registry
 	Zoom.SetRange(GetRegistryInt(REG_ZOOM_MIN, DEFAULT_ZOOM_MIN),
@@ -453,9 +454,18 @@ void CDeskopeDlg::OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2)
 		Zoom.SetPos(Zoom.GetPos() - 1);
 		OnHScroll(0, Zoom.GetPos(), reinterpret_cast<CScrollBar*>(&Zoom));
 	}
+	if (nHotKeyId == HK_QUICK_ZOOM) {
+		if(Zoom.GetPos() > 5){
+			Zoom.SetPos(DEFAULT_ZOOM_MIN);
+		}
+		else{
+			Zoom.SetPos(DEFAULT_ZOOM_MAX);
+		}
+		OnHScroll(0, Zoom.GetPos(), reinterpret_cast<CScrollBar*>(&Zoom));
+	}
 }
 
 void CDeskopeDlg::OnBnClickedHotkeysbutton()
 {
-	MessageBoxW(L"Pressing Ctrl + Shift + a third key will trigger the following actions: \nZ : Toggle SBS 3D Mode\nX : Toggle Restricted Cursor\nC : Recenter Screen\nUp : Zoom In\nDown : Zoom Out", L"Hotkeys", MB_ICONQUESTION | MB_OK | MB_SYSTEMMODAL);
+	MessageBoxW(L"Pressing Ctrl + Alt + a third key will trigger the following actions: \nZ : Toggle SBS 3D Mode\nX : Toggle Restricted Cursor\nC : Recenter Screen\nUp : Zoom In\nDown : Zoom Out \nQ : Quick Zoom", L"Hotkeys", MB_ICONQUESTION | MB_OK | MB_SYSTEMMODAL);
 }

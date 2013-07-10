@@ -11,6 +11,7 @@
 #define HK_RESTRICT_CURSOR 3
 #define HK_ZOOM_IN 4
 #define HK_ZOOM_OUT 5
+#define HK_QUICK_ZOOM 6
 
 // program defaults
 #define DEFAULT_SEPARATION 110
